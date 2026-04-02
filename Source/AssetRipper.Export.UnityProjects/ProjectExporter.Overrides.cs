@@ -97,30 +97,54 @@ partial class ProjectExporter
 
 		//Yaml Exporters
 		YamlStreamedAssetExporter streamedAssetExporter = new();
-		OverrideExporter<IMesh>(streamedAssetExporter);
+		if (settings.ExportSettings.SkipMeshes)
+		{
+			OverrideDummyExporter<IMesh>(false, false);
+		}
+		else
+		{
+			OverrideExporter<IMesh>(streamedAssetExporter);
+		}
 		OverrideExporter<IImageTexture>(streamedAssetExporter);
 
 		//Miscellaneous exporters
 		OverrideExporter<ITextAsset>(new TextAssetExporter(settings));
-		OverrideExporter<IMovieTexture>(new MovieTextureAssetExporter());
-		OverrideExporter<IVideoClip>(new VideoClipExporter());
+		if (settings.ExportSettings.SkipVideos)
+		{
+			OverrideDummyExporter<IMovieTexture>(false, false);
+			OverrideDummyExporter<IVideoClip>(false, false);
+		}
+		else
+		{
+			OverrideExporter<IMovieTexture>(new MovieTextureAssetExporter());
+			OverrideExporter<IVideoClip>(new VideoClipExporter());
+		}
 
 		//Texture exporters
-		TextureAssetExporter textureExporter = new(settings);
-		OverrideExporter<ITexture2D>(textureExporter); //Texture2D and Cubemap
-		OverrideExporter<ISprite>(textureExporter);
-		OverrideExporter<SpriteInformationObject>(textureExporter);
-		if (settings.ExportSettings.SpriteExportMode == SpriteExportMode.Yaml)
+		if (settings.ExportSettings.SkipTextures)
 		{
-			YamlSpriteExporter spriteExporter = new();
-			OverrideExporter<ISprite>(spriteExporter);
-			OverrideExporter<ISpriteAtlas>(spriteExporter);
+			OverrideDummyExporter<ITexture2D>(false, false);
+			OverrideDummyExporter<ISprite>(false, false);
+			OverrideDummyExporter<SpriteInformationObject>(false, false);
 		}
-		if (settings.ExportSettings.LightmapTextureExportFormat is not LightmapTextureExportFormat.Yaml)
+		else
 		{
-			OverrideExporter<ITexture2D>(new LightmapTextureAssetExporter(settings.ExportSettings.LightmapTextureExportFormat is LightmapTextureExportFormat.Exr
-				? ImageExportFormat.Exr
-				: settings.ExportSettings.ImageExportFormat));
+			TextureAssetExporter textureExporter = new(settings);
+			OverrideExporter<ITexture2D>(textureExporter); //Texture2D and Cubemap
+			OverrideExporter<ISprite>(textureExporter);
+			OverrideExporter<SpriteInformationObject>(textureExporter);
+			if (settings.ExportSettings.SpriteExportMode == SpriteExportMode.Yaml)
+			{
+				YamlSpriteExporter spriteExporter = new();
+				OverrideExporter<ISprite>(spriteExporter);
+				OverrideExporter<ISpriteAtlas>(spriteExporter);
+			}
+			if (settings.ExportSettings.LightmapTextureExportFormat is not LightmapTextureExportFormat.Yaml)
+			{
+				OverrideExporter<ITexture2D>(new LightmapTextureAssetExporter(settings.ExportSettings.LightmapTextureExportFormat is LightmapTextureExportFormat.Exr
+					? ImageExportFormat.Exr
+					: settings.ExportSettings.ImageExportFormat));
+			}
 		}
 
 		//Texture Array exporters
@@ -133,28 +157,49 @@ partial class ProjectExporter
 		}
 
 		//Font exporter
-		FontAssetExporter fontAssetExporter = new FontAssetExporter();
-		OverrideExporter<IFont>(fontAssetExporter);
-		OverrideExporter<IMaterial>(fontAssetExporter);
-		OverrideExporter<ITexture>(fontAssetExporter);
+		if (settings.ExportSettings.SkipFonts)
+		{
+			OverrideDummyExporter<IFont>(false, false);
+		}
+		else
+		{
+			FontAssetExporter fontAssetExporter = new FontAssetExporter();
+			OverrideExporter<IFont>(fontAssetExporter);
+			OverrideExporter<IMaterial>(fontAssetExporter);
+			OverrideExporter<ITexture>(fontAssetExporter);
+		}
 
 		//Shader exporters
-		OverrideExporter<IShader>(settings.ExportSettings.ShaderExportMode switch
+		if (settings.ExportSettings.SkipShaders)
 		{
-			ShaderExportMode.Yaml => new YamlShaderExporter(),
-			_ => new DummyShaderTextExporter(),
-		});
-		OverrideExporter<IShader>(new SimpleShaderExporter());
+			OverrideDummyExporter<IShader>(false, false);
+		}
+		else
+		{
+			OverrideExporter<IShader>(settings.ExportSettings.ShaderExportMode switch
+			{
+				ShaderExportMode.Yaml => new YamlShaderExporter(),
+				_ => new DummyShaderTextExporter(),
+			});
+			OverrideExporter<IShader>(new SimpleShaderExporter());
+		}
 
 		//Audio exporters
-		OverrideExporter<IAudioClip>(new YamlAudioExporter());
-		if (settings.ExportSettings.AudioExportFormat == AudioExportFormat.Native)
+		if (settings.ExportSettings.SkipAudioClips)
 		{
-			OverrideExporter<IAudioClip>(new NativeAudioExporter());
+			OverrideDummyExporter<IAudioClip>(false, false);
 		}
-		if (AudioClipExporter.IsSupportedExportFormat(settings.ExportSettings.AudioExportFormat))
+		else
 		{
-			OverrideExporter<IAudioClip>(new AudioClipExporter(settings));
+			OverrideExporter<IAudioClip>(new YamlAudioExporter());
+			if (settings.ExportSettings.AudioExportFormat == AudioExportFormat.Native)
+			{
+				OverrideExporter<IAudioClip>(new NativeAudioExporter());
+			}
+			if (AudioClipExporter.IsSupportedExportFormat(settings.ExportSettings.AudioExportFormat))
+			{
+				OverrideExporter<IAudioClip>(new AudioClipExporter(settings));
+			}
 		}
 
 		//AudioMixer exporters

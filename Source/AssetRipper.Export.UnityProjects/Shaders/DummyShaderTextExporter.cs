@@ -322,7 +322,7 @@ public sealed class DummyShaderTextExporter : ShaderExporterBase
 		writer.Write('\n');
 	}
 
-	private const string GenericFallbackShader = """
+	private static readonly string GenericFallbackShader = """
 	SubShader{
 		Tags { "RenderType" = "Opaque" }
 		LOD 200

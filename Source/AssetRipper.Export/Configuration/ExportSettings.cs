@@ -51,6 +51,36 @@ public sealed record class ExportSettings
 
 	public bool ExportUnreadableAssets { get; set; } = false;
 
+	/// <summary>
+	/// Skip exporting audio clips.
+	/// </summary>
+	public bool SkipAudioClips { get; set; } = false;
+
+	/// <summary>
+	/// Skip exporting textures and images.
+	/// </summary>
+	public bool SkipTextures { get; set; } = false;
+
+	/// <summary>
+	/// Skip exporting meshes.
+	/// </summary>
+	public bool SkipMeshes { get; set; } = false;
+
+	/// <summary>
+	/// Skip exporting shaders.
+	/// </summary>
+	public bool SkipShaders { get; set; } = false;
+
+	/// <summary>
+	/// Skip exporting fonts.
+	/// </summary>
+	public bool SkipFonts { get; set; } = false;
+
+	/// <summary>
+	/// Skip exporting video clips.
+	/// </summary>
+	public bool SkipVideos { get; set; } = false;
+
 	public bool SaveSettingsToDisk { get; set; }
 
 	public string? LanguageCode { get; set; }
@@ -66,5 +96,11 @@ public sealed record class ExportSettings
 		Logger.Info(LogCategory.General, $"{nameof(SpriteExportMode)}: {SpriteExportMode}");
 		Logger.Info(LogCategory.General, $"{nameof(TextExportMode)}: {TextExportMode}");
 		Logger.Info(LogCategory.General, $"{nameof(ExportUnreadableAssets)}: {ExportUnreadableAssets}");
+		Logger.Info(LogCategory.General, $"{nameof(SkipAudioClips)}: {SkipAudioClips}");
+		Logger.Info(LogCategory.General, $"{nameof(SkipTextures)}: {SkipTextures}");
+		Logger.Info(LogCategory.General, $"{nameof(SkipMeshes)}: {SkipMeshes}");
+		Logger.Info(LogCategory.General, $"{nameof(SkipShaders)}: {SkipShaders}");
+		Logger.Info(LogCategory.General, $"{nameof(SkipFonts)}: {SkipFonts}");
+		Logger.Info(LogCategory.General, $"{nameof(SkipVideos)}: {SkipVideos}");
 	}
 }
