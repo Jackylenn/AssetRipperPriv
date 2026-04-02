@@ -44,7 +44,7 @@ public sealed partial class SettingsPage : DefaultPage
 								}
 								using (new Div(writer).WithClass("col").End())
 								{
-									WriteCheckBoxForEnableStaticMeshSeparation(writer, Localization.EnableStaticMeshSeparation, !GameFileLoader.Premium);
+									WriteCheckBoxForEnableStaticMeshSeparation(writer, Localization.EnableStaticMeshSeparation);
 								}
 							}
 
@@ -95,7 +95,7 @@ public sealed partial class SettingsPage : DefaultPage
 								}
 								using (new Div(writer).WithClass("col").End())
 								{
-									WriteCheckBoxForEnableAssetDeduplication(writer, Localization.EnableAssetDeduplication, !GameFileLoader.Premium);
+									WriteCheckBoxForEnableAssetDeduplication(writer, Localization.EnableAssetDeduplication);
 								}
 							}
 
@@ -175,6 +175,45 @@ public sealed partial class SettingsPage : DefaultPage
 								using (new Div(writer).WithClass("col").End())
 								{
 									WriteCheckBoxForExportUnreadableAssets(writer, Localization.ExportUnreadableAssets);
+								}
+							}
+						}
+
+						new Hr(writer).Close();
+
+						using (new Div(writer).End())
+						{
+							new H3(writer).Close("Skip Asset Types");
+
+							using (new Div(writer).WithClass("row").End())
+							{
+								using (new Div(writer).WithClass("col").End())
+								{
+									WriteCheckBoxForSkipAudioClips(writer, Localization.SkipAudioClips);
+								}
+								using (new Div(writer).WithClass("col").End())
+								{
+									WriteCheckBoxForSkipTextures(writer, Localization.SkipTextures);
+								}
+								using (new Div(writer).WithClass("col").End())
+								{
+									WriteCheckBoxForSkipMeshes(writer, Localization.SkipMeshes);
+								}
+							}
+
+							using (new Div(writer).WithClass("row").End())
+							{
+								using (new Div(writer).WithClass("col").End())
+								{
+									WriteCheckBoxForSkipShaders(writer, Localization.SkipShaders);
+								}
+								using (new Div(writer).WithClass("col").End())
+								{
+									WriteCheckBoxForSkipFonts(writer, Localization.SkipFonts);
+								}
+								using (new Div(writer).WithClass("col").End())
+								{
+									WriteCheckBoxForSkipVideos(writer, Localization.SkipVideos);
 								}
 							}
 						}

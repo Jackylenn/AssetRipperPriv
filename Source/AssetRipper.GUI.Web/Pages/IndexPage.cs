@@ -1,4 +1,5 @@
 ﻿using AssetRipper.GUI.Web.Paths;
+using AssetRipper.Import;
 
 namespace AssetRipper.GUI.Web.Pages;
 
@@ -6,7 +7,7 @@ public sealed class IndexPage : DefaultPage
 {
 	public static IndexPage Instance { get; } = new();
 
-	public override string? GetTitle() => GameFileLoader.Premium ? Localization.AssetRipperPremium : Localization.AssetRipperFree;
+	public override string? GetTitle() => Localization.AssetRipperPremium;
 
 	public override void WriteInnerContent(TextWriter writer)
 	{
@@ -21,19 +22,13 @@ public sealed class IndexPage : DefaultPage
 			{
 				new Button(writer).WithType("button").WithClass("btn btn-secondary").WithDisabled().Close(Localization.NoFilesLoaded);
 			}
-			if (GameFileLoader.Premium)
+			new P(writer).WithClass("mt-4").Close(Localization.AppreciationMessage);
+
+			// Version info
+			string? version = AssetRipperRuntimeInformation.Build.Version;
+			if (version is not null)
 			{
-				new P(writer).WithClass("mt-4").Close(Localization.AppreciationMessage);
-			}
-			else
-			{
-				new P(writer).WithClass("mt-4").Close(Localization.DonationMessage);
-				using (new Div(writer).WithClass("d-flex justify-content-center mt-3").End())
-				{
-					new A(writer).WithClass("btn btn-primary m-1").WithNewTabAttributes().WithHref("https://patreon.com/ds5678").Close("Patreon");
-					new A(writer).WithClass("btn btn-primary m-1").WithNewTabAttributes().WithHref("https://paypal.me/ds5678").Close("Paypal");
-					new A(writer).WithClass("btn btn-primary m-1").WithNewTabAttributes().WithHref("https://github.com/sponsors/ds5678").Close("GitHub Sponsors");
-				}
+				new P(writer).WithClass("text-muted mt-2").Close($"v{version} ({AssetRipperRuntimeInformation.Build.Configuration})");
 			}
 		}
 	}

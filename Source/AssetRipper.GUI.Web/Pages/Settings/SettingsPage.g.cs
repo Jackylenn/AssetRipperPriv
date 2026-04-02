@@ -71,6 +71,12 @@ partial class SettingsPage
 		{ nameof(ExportSettings.ScriptTypesFullyQualified), (value) => { Configuration.ExportSettings.ScriptTypesFullyQualified = value; } },
 		{ nameof(ExportSettings.ExportUnreadableAssets), (value) => { Configuration.ExportSettings.ExportUnreadableAssets = value; } },
 		{ nameof(ExportSettings.SaveSettingsToDisk), (value) => { Configuration.ExportSettings.SaveSettingsToDisk = value; } },
+		{ nameof(ExportSettings.SkipAudioClips), (value) => { Configuration.ExportSettings.SkipAudioClips = value; } },
+		{ nameof(ExportSettings.SkipTextures), (value) => { Configuration.ExportSettings.SkipTextures = value; } },
+		{ nameof(ExportSettings.SkipMeshes), (value) => { Configuration.ExportSettings.SkipMeshes = value; } },
+		{ nameof(ExportSettings.SkipShaders), (value) => { Configuration.ExportSettings.SkipShaders = value; } },
+		{ nameof(ExportSettings.SkipFonts), (value) => { Configuration.ExportSettings.SkipFonts = value; } },
+		{ nameof(ExportSettings.SkipVideos), (value) => { Configuration.ExportSettings.SkipVideos = value; } },
 	};
 
 	private static void WriteDropDownForScriptContentLevel(TextWriter writer)
@@ -171,5 +177,35 @@ partial class SettingsPage
 	private static void WriteCheckBoxForSaveSettingsToDisk(TextWriter writer, string label, bool disabled = false)
 	{
 		WriteCheckBox(writer, label, Configuration.ExportSettings.SaveSettingsToDisk, nameof(ExportSettings.SaveSettingsToDisk), disabled);
+	}
+
+	private static void WriteCheckBoxForSkipAudioClips(TextWriter writer, string label, bool disabled = false)
+	{
+		WriteCheckBox(writer, label, Configuration.ExportSettings.SkipAudioClips, nameof(ExportSettings.SkipAudioClips), disabled);
+	}
+
+	private static void WriteCheckBoxForSkipTextures(TextWriter writer, string label, bool disabled = false)
+	{
+		WriteCheckBox(writer, label, Configuration.ExportSettings.SkipTextures, nameof(ExportSettings.SkipTextures), disabled);
+	}
+
+	private static void WriteCheckBoxForSkipMeshes(TextWriter writer, string label, bool disabled = false)
+	{
+		WriteCheckBox(writer, label, Configuration.ExportSettings.SkipMeshes, nameof(ExportSettings.SkipMeshes), disabled);
+	}
+
+	private static void WriteCheckBoxForSkipShaders(TextWriter writer, string label, bool disabled = false)
+	{
+		WriteCheckBox(writer, label, Configuration.ExportSettings.SkipShaders, nameof(ExportSettings.SkipShaders), disabled);
+	}
+
+	private static void WriteCheckBoxForSkipFonts(TextWriter writer, string label, bool disabled = false)
+	{
+		WriteCheckBox(writer, label, Configuration.ExportSettings.SkipFonts, nameof(ExportSettings.SkipFonts), disabled);
+	}
+
+	private static void WriteCheckBoxForSkipVideos(TextWriter writer, string label, bool disabled = false)
+	{
+		WriteCheckBox(writer, label, Configuration.ExportSettings.SkipVideos, nameof(ExportSettings.SkipVideos), disabled);
 	}
 }

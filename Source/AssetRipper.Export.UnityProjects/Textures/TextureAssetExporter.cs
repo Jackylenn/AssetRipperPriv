@@ -37,6 +37,8 @@ public class TextureAssetExporter : BinaryAssetExporter
 
 	public override bool Export(IExportContainer container, IUnityObjectBase asset, string path, FileSystem fileSystem)
 	{
+		try
+		{
 		ITexture2D texture = (ITexture2D)asset;
 		if (!texture.CheckAssetIntegrity())
 		{
@@ -53,6 +55,12 @@ public class TextureAssetExporter : BinaryAssetExporter
 		else
 		{
 			Logger.Log(LogType.Warning, LogCategory.Export, $"Unable to convert '{texture.Name}' to bitmap");
+			return false;
+		}
+		}
+		catch (Exception ex)
+		{
+			Logger.Log(LogType.Warning, LogCategory.Export, $"Failed to export texture '{asset}': {ex.Message}");
 			return false;
 		}
 	}

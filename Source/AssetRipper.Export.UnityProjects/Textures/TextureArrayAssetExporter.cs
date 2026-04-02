@@ -34,6 +34,8 @@ public sealed class TextureArrayAssetExporter : BinaryAssetExporter
 	{
 		bool success;
 		DirectBitmap bitmap;
+		try
+		{
 		switch (asset)
 		{
 			case ICubemapArray cubemapArray:
@@ -82,6 +84,12 @@ public sealed class TextureArrayAssetExporter : BinaryAssetExporter
 		else
 		{
 			Logger.Log(LogType.Warning, LogCategory.Export, $"Unable to convert '{asset}' to bitmap");
+			return false;
+		}
+		}
+		catch (Exception ex)
+		{
+			Logger.Log(LogType.Warning, LogCategory.Export, $"Failed to export texture array '{asset}': {ex.Message}");
 			return false;
 		}
 
